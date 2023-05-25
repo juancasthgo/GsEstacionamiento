@@ -71,7 +71,7 @@ def crear_producto(request):
             ))
         if form.is_valid():
             form.save()
-            messages.success(request, "Producto Agregado")
+            messages.success(request, "Estacionamiento Agregado")
             return redirect("productos:home")
     else:
         form = FormProducto(initial={'fecha':timezone.now()})
@@ -89,7 +89,7 @@ def editar_producto(request, producto_id):
         form = FormProducto(data=request.POST, files=request.FILES, instance=producto_editado)
         if form.is_valid():
             form.save()
-            messages.success(request, "Producto Editado")
+            messages.success(request, "Estacionamiento Editado")
             return redirect("productos:home")
     else:
         form = FormProducto(instance = producto_editado)
@@ -104,7 +104,7 @@ def editar_producto(request, producto_id):
 def producto_borrado(request, producto_id):
     borrado = get_object_or_404(Producto, id=producto_id)
     borrado.delete()
-    messages.success(request, "Producto Eliminado")
+    messages.success(request, "Estacionamiento Eliminado")
     return redirect("productos:home")
 
 def categorias(request, categoria_id):

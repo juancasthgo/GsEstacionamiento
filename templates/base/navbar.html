@@ -10,22 +10,19 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item me-5">
-            <a class="nav-link" href="{{ home }}">Productos</a>
-          </li>
-          <li class="nav-item me-5">
-            <a class="nav-link" href="{{ acerca }}">Acerca de</a>
+            <a class="nav-link" href="{{ home }}">Estacionamientos</a>
           </li>
           {% if not perms.productos.add_producto %}
           {% if request.user.is_authenticated %}
 
           <li class="nav-item me-5">
-            <a class="nav-link"  href="{% url 'carrito:compra' %}">Carro</a>
+            <a class="nav-link"  href="{% url 'carrito:compra' %}">Arrendar</a>
           </li>
 
           {% else %}
 
           <li class="nav-item me-5">
-            <a class="nav-link"  href="{% url 'login' %}">Carro</a>
+            <a class="nav-link"  href="{% url 'login' %}">Arrendar</a>
           </li>
 
           {% endif %}
@@ -33,7 +30,7 @@
 
           {% if perms.app.view_producto %}
               <li class="nav-item me-5">
-                <a class="nav-link" href="{{ nuevo }}">Nuevo Producto</a>
+                <a class="nav-link" href="{{ nuevo }}">Agregar Estacionamientos</a>
               </li>
           {% endif %}
 

@@ -5,7 +5,7 @@
 <html>
     
 <head>
-<title>Music Pro</title>
+<title>Parking Site</title>
 <meta charset="UTF-8">
 <link rel="icon" type="image/x-icon"  href='{% static "css/ico.png" %}' />
 
@@ -62,7 +62,7 @@ body, html {
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
     <div class="video-container">
       <video autoplay loop muted>
-        <source src="/media/img/video.webm" type="video/mp4">
+        <source src="/media/img/video.mp4" type="video/mp4">
       </video>
     </div>
     <div class="w3-display-middle w3-display-center w3-text-white" style="padding:48px">
@@ -129,7 +129,7 @@ function w3_close() {
   boton.addEventListener("click", function() {
       // Muestra la alerta de Sweet Alert
       Swal.fire({
-          title: "Bienvenido a Music Pro",
+          title: "Bienvenido a Parking Site",
           text: "{{m}}",
           icon: "success",
           timer: 1000,

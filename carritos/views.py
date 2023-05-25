@@ -22,7 +22,7 @@ def carrito_actualizado(request):
             carrito_obj.productos.remove(item)
         else:
             carrito_obj.productos.add(item)
-            messages.success(request, "Producto Agregado")
+            messages.success(request, "Estacionamiento Agregado")
     return redirect('carritos:compra')
 
 

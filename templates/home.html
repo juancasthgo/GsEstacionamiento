@@ -20,7 +20,7 @@
 
 <!-- Team Section 1 -->
 <div class="w3-container" style="padding:128px 16px" id="team">
-  <h3 class="w3-center">NUESTROS PRODUCTOS</h3>
+  <h3 class="w3-center">ESTACIONAMIENTOS DISPONIBLES</h3>
   <p class="w3-center w3-large"></p>
   <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
     {% for productos in primeros_productos %}
@@ -28,12 +28,12 @@
       <div class="w3-card">
         <img src="{{ productos.imagen.url }}" alt="John" style="width:180px; height:180px;">
         <div class="w3-container">
-          <h3>{{ productos.titulo }}</h3>
-          <p class="w3-opacity">{{ productos.categoria | capfirst }}</p>
+          <h3>{{ productos.categoria }}</h3>
+          <p class="w3-opacity">{{ productos.titulo | capfirst }}</p>
 
           <p class="w3-opacity">{{ productos.descripcion | capfirst }}</p>
           <p>$ {{ productos.precio | intword | intcomma }}</p>
-          <p><a href="{% url 'productos:producto' productos.id %}" class="w3-button w3-light-grey w3-block"><i ></i> Ver</a></p>
+          <p><a href="{% url 'productos:producto' productos.id %}" class="w3-button w3-light-grey w3-block"><i ></i> Ver Estacionamiento</a></p>
         </div>
       </div>
     </div>

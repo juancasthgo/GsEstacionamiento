@@ -22,7 +22,7 @@
                     {% if request.user.is_authenticated %}
                          {% include 'carrito/actualizar_carrito.html' with producto=producto carrito=carrito %}
                     {% else %}
-                         <a href="{% url 'login' %}" class="btn btn-success ms-3">Agregar al carrito</a>
+                         <a href="{% url 'login' %}" class="btn btn-success ms-3">Arrendar</a>
                     {% endif %}
                {% endif %}        
            </div>

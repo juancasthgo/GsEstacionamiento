@@ -6,12 +6,12 @@
         {% csrf_token %}
         <div class="mb-3 form-floating">
             {{ form.titulo }} {{ form.titulo.errors }}
-            <label for="titulo">Título</label>
+            <label for="titulo">Direccion</label>
         </div>
         <div class="bloque row pb-5">
             <div class="imagen col">
                 <div class="mb-3">
-                    <label for="imagen_input"  class="row ms-1 mb-3">IMAGEN</label>
+                    <label for="imagen_input"  class="row ms-1 mb-3">Imagen del Estacionamiento</label>
                     <div class="">
                         <img src="{{ producto.imagen.url }}" class="text-center" width="120" height="120" alt="{{ producto.titulo }}"><br> 
                         {{ form.imagen }} {{ form.imagen.errors }}
@@ -21,14 +21,14 @@
             <div class="contenido-form col">
                 <div class="mb-3 form-floating">
                     {{ form.categoria }} {{ form.categoria.errors }}
-                    <label for="categoria">Categoría</label>
+                    <label for="categoria">Comuna</label>
                 </div>
                 <div class="visually-hidden">
                    {{ form.fecha }} {{ form.fecha.errors }}
                 </div>
                 <div class="mb-3 form-floating">
                     {{ form.descripcion }} {{ form.descripcion.errors }}
-                    <label for="descripcion">Descripción</label>
+                    <label for="descripcion">Descripción del Estacionamiento</label>
                 </div>
                 <div class="row pb-3 fila">
                     <div class="col-auto mb-3 me-5 form-floating fila">
