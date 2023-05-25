@@ -1,0 +1,48 @@
+{% url 'productos:home' as home %}
+{% url 'productos:acerca' as acerca %}
+{% url 'productos:producto_nuevo' as nuevo %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item me-5">
+            <a class="nav-link" href="{{ home }}">Productos</a>
+          </li>
+          <li class="nav-item me-5">
+            <a class="nav-link" href="{{ acerca }}">Acerca de</a>
+          </li>
+          {% if not perms.productos.add_producto %}
+          {% if request.user.is_authenticated %}
+
+          <li class="nav-item me-5">
+            <a class="nav-link"  href="{% url 'carrito:compra' %}">Carro</a>
+          </li>
+
+          {% else %}
+
+          <li class="nav-item me-5">
+            <a class="nav-link"  href="{% url 'login' %}">Carro</a>
+          </li>
+
+          {% endif %}
+      {% endif %}
+
+          {% if perms.app.view_producto %}
+              <li class="nav-item me-5">
+                <a class="nav-link" href="{{ nuevo }}">Nuevo Producto</a>
+              </li>
+          {% endif %}
+
+
+        </ul>
+        <form   method='GET' action="{% url 'productos:resultado' %}"  class="d-flex">
+            <input class="form-control me-2" type="search" name='q' placeholder="Buscar" aria-label="Search"  value="{{ request.GET.q }}">
+            <button class="btn btn-outline-dark me-3" type="submit">Busqueda</button>
+        </form>
+      </div>
+    </div>
+</nav>
