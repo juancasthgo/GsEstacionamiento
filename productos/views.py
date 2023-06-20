@@ -8,8 +8,11 @@ from .forms import *
 from django.db.models import Q
 from django.views.generic.list import ListView
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.http import Http404
 
 
 from carritos.models import Carrito
@@ -22,8 +25,7 @@ def inicio(request):
         'primeros_productos': productos13,
         'categorias': categorias,
     }
-    return render(request, "inicio.html")
-
+    return render(request, "inicio.html", context)
 
 def home(request):
     productos13 = Producto.objects.all()
@@ -41,6 +43,7 @@ def acerca(request):
     }
     return render(request, "acerca.html", context)
 
+@permission_required('app.view_producto')
 def resultado(request, categoria_id):
     categoria_id = get_object_or_404(Categoria, id=categoria_id)
     categorias = Categoria.objects.all()
@@ -49,6 +52,7 @@ def resultado(request, categoria_id):
         'id_cat': categoria_id,
     }
     return render(request, "search/resultado.html", context)
+
 
 def producto(request, producto_id):
     categorias = Categoria.objects.all()
@@ -61,6 +65,7 @@ def producto(request, producto_id):
     }
     return render(request, "product/producto.html", context)
 
+@permission_required('app.view_producto')
 def crear_producto(request):
     if request.method == "POST":
         user = User.objects.get(username=request.user)
@@ -71,7 +76,7 @@ def crear_producto(request):
             ))
         if form.is_valid():
             form.save()
-            messages.success(request, "Estacionamiento Agregado")
+            messages.success(request, "Producto Agregado")
             return redirect("productos:home")
     else:
         form = FormProducto(initial={'fecha':timezone.now()})
@@ -80,7 +85,8 @@ def crear_producto(request):
             'categorias': categorias,
             "form": form
         })
-
+    
+@permission_required('app.view_producto')
 def editar_producto(request, producto_id):
     producto_editado = get_object_or_404(Producto, id=producto_id)
     if request.method == "POST":
@@ -89,7 +95,7 @@ def editar_producto(request, producto_id):
         form = FormProducto(data=request.POST, files=request.FILES, instance=producto_editado)
         if form.is_valid():
             form.save()
-            messages.success(request, "Estacionamiento Editado")
+            messages.success(request, "Producto Editado")
             return redirect("productos:home")
     else:
         form = FormProducto(instance = producto_editado)
@@ -101,12 +107,14 @@ def editar_producto(request, producto_id):
         }
         return render(request, 'product/producto_editado.html', context)
 
+@permission_required('app.view_producto')
 def producto_borrado(request, producto_id):
     borrado = get_object_or_404(Producto, id=producto_id)
     borrado.delete()
-    messages.success(request, "Estacionamiento Eliminado")
+    messages.success(request, "Producto Eliminado")
     return redirect("productos:home")
 
+@permission_required('app.view_producto')
 def categorias(request, categoria_id):
     categoria_id = get_object_or_404(Categoria, id=categoria_id)
     categorias = Categoria.objects.all()
@@ -128,3 +136,52 @@ class SearchResultsView(ListView):
         )
         return object_list 
  
+def contacto(request):
+    data = {
+        'form': ContactoForm()
+    }
+    
+    if request.method == 'POST':
+        formulario = ContactoForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, "Mensaje Enviado")
+
+        else:
+            data["form"] = formulario
+
+    return render(request, 'templates/inicio.html', data)
+
+@permission_required('app.view_producto')
+def categoria(request):
+    data = {
+        'form': CategoriaForm()
+    }
+    
+    if request.method == 'POST':
+        formulario = CategoriaForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, "Marca Agregada")
+        else:
+            data["form"] = formulario
+
+    return render(request, 'templates/categoria.html', data)
+
+
+@permission_required('app.view_producto')
+def listar(request):
+    productos = Contacto.objects.all()
+    page = request.GET.get('page',1)
+    try:
+        paginator = Paginator(productos, 3)
+        productos = paginator.page(page)
+    except:
+        raise Http404
+
+    data = { 
+        'entity': productos,
+        'paginator': paginator
+    }
+
+    return render(request, "product/listar.html", data)

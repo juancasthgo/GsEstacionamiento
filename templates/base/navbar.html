@@ -1,45 +1,76 @@
+
+{% url 'productos:listar' as listar %}
 {% url 'productos:home' as home %}
-{% url 'productos:acerca' as acerca %}
 {% url 'productos:producto_nuevo' as nuevo %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+{% url 'productos:categoria' as categoria %}
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item me-5">
-            <a class="nav-link" href="{{ home }}">Estacionamientos</a>
-          </li>
-          {% if not perms.productos.add_producto %}
-          {% if request.user.is_authenticated %}
 
-          <li class="nav-item me-5">
-            <a class="nav-link"  href="{% url 'carrito:compra' %}">Arrendar</a>
-          </li>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-          {% else %}
+<!-- Sidebar on click -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 
-          <li class="nav-item me-5">
-            <a class="nav-link"  href="{% url 'login' %}">Arrendar</a>
-          </li>
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-small">PARKING SITE</a>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'productos:home' %}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">ESTACIONAMIENTO</a>
+    {% if not perms.productos.add_producto %}
+    {% endif %} 
 
-          {% endif %}
+    <a href="{% url 'logout'%}?next={{ inicio }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CERRAR SESION</a>
+    <form method="GET" action="{% url 'productos:resultado' %}" class="w3-bar-item w3-hide-small w3-right w3-margin-right">
+      <input class="w3-dropdown-hover w3-hide-small" type="search" name="q" placeholder="Buscar" aria-label="Search" value="{{ request.GET.q }}">
+    </form>
+    {% else %}
+   
+    
+    <a href="{% url 'productos:home' %}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">PRODUCTOS</a>
+    <form method="GET" action="{% url 'productos:resultado' %}" class="w3-bar-item w3-hide-small w3-right w3-margin-right">
+      <input class="w3-dropdown-hover w3-hide-small" type="search" name="q" placeholder="Buscar" aria-label="Search" value="{{ request.GET.q }}">
+      
+    </form>
+    {% endif %}
+
+
+    {% if perms.app.view_producto %}
+    <div class="w3-dropdown-hover w3-hide-small w3-right w3-margin-right ">
+      <button class="w3-padding-large w3-button " title="More">ADMINISTRACION <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="{{ listar }}"  class="w3-bar-item w3-button">MENSAJES</a>
+        <a href="{{ nuevo }}"  class="w3-bar-item w3-button">AGREGAR</a>
+        <a href="{{ home }}"class="w3-bar-item w3-button">EDITAR</a>
+        <a href="{{ categoria }}"class="w3-bar-item w3-button">COMUNA</a>
+      </div>
       {% endif %}
 
-          {% if perms.app.view_producto %}
-              <li class="nav-item me-5">
-                <a class="nav-link" href="{{ nuevo }}">Agregar Estacionamientos</a>
-              </li>
-          {% endif %}
+        </div>
+  
+</div>
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
 
 
-        </ul>
-        <form   method='GET' action="{% url 'productos:resultado' %}"  class="d-flex">
-            <input class="form-control me-2" type="search" name='q' placeholder="Buscar" aria-label="Search"  value="{{ request.GET.q }}">
-            <button class="btn btn-outline-dark me-3" type="submit">Busqueda</button>
-        </form>
-      </div>
-    </div>
-</nav>
+  
+  {% if request.user.is_authenticated %}
+  <a href="{% url 'productos:home' %}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">PRODUCTOS</a>
+  {% if not perms.productos.add_producto %}
+  <a href="{% url 'productos:contacto' %}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONTACTO</a>
+  {% endif %} 
+  <a href="{% url 'logout'%}?next={{ inicio }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CERRAR SESION</a>
+  {% else %}
+  <a href="{% url 'login' %}"  class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">INICIAR SESION</a>
+  <a href="{% url 'productos:contacto' %}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONTACTO</a>
+  <a href="{% url 'productos:home' %}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">PRODUCTOS</a>
+  {% endif %}
+  
+  {% if perms.app.view_producto %}
+  <a href="{{ lista }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MENSAJES</a>
+  <a href="{{ nuevo }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">AGREGAR</a>
+  <a href="{{ home }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">EDITAR</a>
+  <a href="{{ categoria }}" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">MARCA</a>
+  {% endif %}
+
+</div>

@@ -1,11 +1,11 @@
 from django import forms
-from .models import Producto
+from .models import Categoria, Contacto, Producto
 
 class FormProducto(forms.ModelForm):
 
     class Meta:
         model = Producto
-        fields = ('categoria', 'fecha', 'titulo', 'descripcion', 'precio', 'imagen')
+        fields = ('categoria', 'fecha', 'titulo', 'descripcion', 'precio', 'imagen', 'urlpago')
         widgets = {
             'categoria': forms.Select(
                 attrs={
@@ -36,7 +36,25 @@ class FormProducto(forms.ModelForm):
                     "id": "precio",
                 }
             ),
+            'urlpago': forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "id": 'urlpago',
+                }
+            ),
+            
             'imagen': forms.ClearableFileInput(),
         }
 
 
+# FORMULARIO CONTACTO
+class ContactoForm(forms.ModelForm):
+    nombre = forms.CharField(min_length=3, max_length=15) #VALIDACION 1
+    class Meta:
+        model = Contacto
+        fields = '__all__'
+
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = '__all__'
