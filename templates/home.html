@@ -49,29 +49,26 @@
 <div class="w3-container" style="padding:128px 16px" id="team">
   <h3 class="w3-center">ESTACIONAMIENTOSS</h3>
   <p class="w3-center w3-large">Busca tu espacio.</p>
-  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+
+
+  <div class="w3-row-padding">
     {% for productos in primeros_productos %}
     <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="{{ productos.imagen.url }}" alt="John" style="width:180px; height:180px;" class="pulsating-image">
-        <div class="w3-container">
-          <br>
-          <h3>{{ productos.categoria }}</h3>
-
-          <p>$ {{ productos.precio | intword | intcomma }}</p>
-          {% if perms.app.view_producto %}
-          <p><a href="{% url 'productos:producto' productos.id %}" class="w3-button w3-button" style="background-color: rgb(14, 13, 13); color: white; border-radius: 10px;"> <i></i>Ver</a>
-            {% endif %}
-          <p><a onclick="window.location.href = '{{ productos.urlpago }}'" class="w3-button w3-button pulsating-link" style="background-color: rgb(14, 13, 13); color: white; border-radius: 10px;"><i></i> Arrendar</a></p>
+      <div class="w3-display-container">
+        <div style="text-align: center;" class="w3-display-center w3-black w3-padding">{{ productos.categoria | capfirst }}</div>
         
-          
-                  
+        <div style="height: 100%">
+          <img src="{{ productos.imagen.url }}" alt="House" style="width: 100%; height: 100%" class="pulsating-image">
         </div>
+      
+        <p style="text-align: center; font-weight: bold;">$ {{ productos.precio | intword | intcomma }}</p>
+        <p style="text-align: center;"><a onclick="window.location.href = '{{ productos.urlpago }}'" class="w3-buttom w3-button pulsating-link" style="background-color: rgb(14, 13, 13); color: white; border-radius: 10px;"><i></i> Arrendar</a></p>
+        <p style="text-align: center;"><a href="{% url 'productos:producto' productos.id %}" class="w3-button w3-button" style="background-color: rgb(14, 13, 13); color: white; border-radius: 10px;"><i></i> Ver</a></p>
       </div>
     </div>
     {% endfor %}
   </div>
-</div>
+  
 
 
 
